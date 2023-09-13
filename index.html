@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Audio Converter</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #333;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text to Audio Converter</h1>
+        <textarea id="text-to-convert" placeholder="Enter text..."></textarea>
+        <button id="convert-button">Convert to Audio</button>
+        <audio id="audio" controls></audio>
+    </div>
+    <script>
+        const textToConvert = document.getElementById("text-to-convert");
+const convertButton = document.getElementById("convert-button");
+const audioElement = document.getElementById("audio");
+
+// Initialize the SpeechSynthesis API
+const synth = window.speechSynthesis;
+
+convertButton.addEventListener("click", () => {
+    const text = textToConvert.value;
+    if (text !== "") {
+        const utterance = new SpeechSynthesisUtterance(text);
+        synth.speak(utterance);
+        utterance.onend = () => {
+            audioElement.src = URL.createObjectURL(new Blob([text], { type: "audio/wav" }));
+        };
+    }
+});
+
+    </script>
+</body>
+</html>
